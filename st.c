@@ -1381,7 +1381,9 @@ tsetattr(const int *attr, int l)
 		case 5: /* slow blink */
 			/* FALLTHROUGH */
 		case 6: /* rapid blink */
+#if ENABLE_ANNOYING_BLINKING_TEXT
 			term.c.attr.mode |= ATTR_BLINK;
+#endif
 			break;
 		case 7:
 			term.c.attr.mode |= ATTR_REVERSE;
@@ -1414,28 +1416,40 @@ tsetattr(const int *attr, int l)
 			term.c.attr.mode &= ~ATTR_STRUCK;
 			break;
 		case 38:
+#if ENABLE_ANNOYING_COLOURS
 			if ((idx = tdefcolor(attr, &i, l)) >= 0)
 				term.c.attr.fg = idx;
+#endif
 			break;
 		case 39:
 			term.c.attr.fg = defaultfg;
 			break;
 		case 48:
+#if ENABLE_ANNOYING_COLOURS
 			if ((idx = tdefcolor(attr, &i, l)) >= 0)
 				term.c.attr.bg = idx;
+#endif
 			break;
 		case 49:
 			term.c.attr.bg = defaultbg;
 			break;
 		default:
 			if (BETWEEN(attr[i], 30, 37)) {
+#if ENABLE_ANNOYING_COLOURS
 				term.c.attr.fg = attr[i] - 30;
+#endif
 			} else if (BETWEEN(attr[i], 40, 47)) {
+#if ENABLE_ANNOYING_COLOURS
 				term.c.attr.bg = attr[i] - 40;
+#endif
 			} else if (BETWEEN(attr[i], 90, 97)) {
+#if ENABLE_ANNOYING_COLOURS
 				term.c.attr.fg = attr[i] - 90 + 8;
+#endif
 			} else if (BETWEEN(attr[i], 100, 107)) {
+#if ENABLE_ANNOYING_COLOURS
 				term.c.attr.bg = attr[i] - 100 + 8;
+#endif
 			} else {
 				fprintf(stderr,
 					"erresc(default): gfx attr %d unknown\n",
